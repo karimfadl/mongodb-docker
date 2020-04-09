@@ -20,29 +20,16 @@ services:
     restart: always
     depends_on:
         - mongodb
-    expose:
-      - 8081
+    ports:
+     - 80:8081
     environment:
       ME_CONFIG_MONGODB_SERVER: mongodb
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: prindustry
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: prindustry
     networks:
       - mongodb_net
-
-  nginx-proxy:
-    image: nginx:alpine
-    container_name: nginx-proxy
-    restart: always
-    depends_on:
-        - mongodb-express
-    ports:
-     - 80:80
-    volumes:
-      - ./nginx/proxy.conf:/etc/nginx/conf.d/proxy.conf
-      - ./nginx/.htpasswd:/etc/nginx/.htpasswd
-    networks:
-      - mongodb_net
-
 
 volumes:
   docker-data:
